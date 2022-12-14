@@ -114,6 +114,10 @@ function ResponsiveAppBar() {
                   }}
                   sx={{
                     backgroundColor: selectedTab == page && "rgba(0,0,0,0.2)",
+                    "&:hover": {
+                      backgroundColor:
+                        selectedTab == page ? "rgba(0,0,0,0.2)" : "white",
+                    },
                   }}
                 >
                   <Typography textAlign="left">{page}</Typography>
@@ -142,7 +146,6 @@ function ResponsiveAppBar() {
                 flexGrow: 1,
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -178,6 +181,12 @@ function ResponsiveAppBar() {
                   display: "block",
                   textTransform: "unset",
                   fontSize: "16px",
+                  "&:hover": {
+                    backgroundColor:
+                      selectedTab == page
+                        ? "rgba(255,255,255,0.2)"
+                        : "rgba(0,0,0,0)",
+                  },
                 }}
               >
                 {page}
