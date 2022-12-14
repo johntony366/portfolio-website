@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     <main className={inter.className}>
       <Head>
         <title>{Component.title}</title>
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <Layout>
         <Component {...pageProps} />
