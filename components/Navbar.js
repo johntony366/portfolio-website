@@ -17,6 +17,11 @@ const pages = ["About", "Projects", "Contact"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [selectedTab, setSelectedTab] = React.useState("");
+
+  React.useEffect(() => {
+    setSelectedTab(document.title);
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -25,7 +30,6 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   return (
     <AppBar position="static" sx={{ background: "#262626", maxHeight: "10vh" }}>
       <Container maxWidth="xl">
@@ -85,8 +89,16 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <Link key={page} href={`/${page.toLowerCase()}`}>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      setSelectedTab(page);
+                    }}
+                    sx={{
+                      backgroundColor: selectedTab == page && "rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    <Typography textAlign="left">{page}</Typography>
                   </MenuItem>
                 </Link>
               ))}
@@ -122,11 +134,16 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Link key={page} href={`/${page.toLowerCase()}`}>
                 <Button
-                  onClick={handleCloseNavMenu}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    setSelectedTab(page);
+                  }}
                   sx={{
                     my: 2,
                     mx: 4,
                     color: "white",
+                    backgroundColor:
+                      selectedTab == page && "rgba(255,255,255,0.2)",
                     display: "block",
                     textTransform: "unset",
                     fontSize: "16px",
