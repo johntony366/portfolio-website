@@ -30,5 +30,5 @@ const Contact = () => {
     </Box>
   );
 };
-
+Contact.title = "Contact";
 export default Contact;

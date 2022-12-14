@@ -64,5 +64,5 @@ const About = () => {
     </Box>
   );
 };
-
+About.title = "About";
 export default About;

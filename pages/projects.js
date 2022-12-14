@@ -70,5 +70,5 @@ const Projects = () => {
     </Box>
   );
 };
-
+Projects.title = "Projects";
 export default Projects;
