@@ -12,15 +12,25 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const pages = ["About", "Projects", "Contact"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [selectedTab, setSelectedTab] = React.useState("");
+  const [width, setWidth] = React.useState(0);
+  const router = useRouter();
 
   React.useEffect(() => {
+    setWidth(window.innerWidth);
     setSelectedTab(document.title);
+    function f() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", f);
+
+    // return window.removeEventListener("resize", f);
   }, []);
 
   const handleOpenNavMenu = (event) => {
@@ -34,7 +44,13 @@ function ResponsiveAppBar() {
     <AppBar position="static" sx={{ background: "#262626", maxHeight: "10vh" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link href="/">
+          <button
+            onClick={() => {
+              router.push("/");
+              setSelectedTab("");
+            }}
+            style={{ display: width < 900 ? "none" : "inline-block" }}
+          >
             <Typography
               variant="h6"
               noWrap
@@ -51,7 +67,7 @@ function ResponsiveAppBar() {
             >
               John Tony
             </Typography>
-          </Link>
+          </button>
 
           <Box
             sx={{
@@ -88,39 +104,52 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <Link key={page} href={`/${page.toLowerCase()}`}>
-                  <MenuItem
-                    onClick={() => {
-                      handleCloseNavMenu();
-                      setSelectedTab(page);
-                    }}
-                    sx={{
-                      backgroundColor: selectedTab == page && "rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <Typography textAlign="left">{page}</Typography>
-                  </MenuItem>
-                </Link>
+                // <Link key={page} href={`/${page.toLowerCase()}`}>
+                <MenuItem
+                  key={page}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    setSelectedTab(page);
+                    router.push(`/${page.toLowerCase()}`);
+                  }}
+                  sx={{
+                    backgroundColor: selectedTab == page && "rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <Typography textAlign="left">{page}</Typography>
+                </MenuItem>
+                // </Link>
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="p"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+          <button
+            onClick={() => {
+              router.push("/");
+              setSelectedTab("");
+            }}
+            style={{
+              display: width > 900 ? "none" : "inline-block",
             }}
           >
-            <Link href="/">John Tony</Link>
-          </Typography>
+            <Typography
+              variant="h5"
+              noWrap
+              component="p"
+              textAlign={"center"}
+              width="100%"
+              sx={{
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              John Tony
+            </Typography>
+          </button>
           <Box
             sx={{
               flexGrow: 1,
@@ -132,26 +161,28 @@ function ResponsiveAppBar() {
             }}
           >
             {pages.map((page) => (
-              <Link key={page} href={`/${page.toLowerCase()}`}>
-                <Button
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    setSelectedTab(page);
-                  }}
-                  sx={{
-                    my: 2,
-                    mx: 4,
-                    color: "white",
-                    backgroundColor:
-                      selectedTab == page && "rgba(255,255,255,0.2)",
-                    display: "block",
-                    textTransform: "unset",
-                    fontSize: "16px",
-                  }}
-                >
-                  {page}
-                </Button>
-              </Link>
+              // <Link key={page} href={`/${page.toLowerCase()}`}>
+              <Button
+                key={page}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  setSelectedTab(page);
+                  router.push(`/${page.toLowerCase()}`);
+                }}
+                sx={{
+                  my: 2,
+                  mx: 4,
+                  color: "white",
+                  backgroundColor:
+                    selectedTab == page && "rgba(255,255,255,0.2)",
+                  display: "block",
+                  textTransform: "unset",
+                  fontSize: "16px",
+                }}
+              >
+                {page}
+              </Button>
+              // </Link>
             ))}
           </Box>
         </Toolbar>
